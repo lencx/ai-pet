@@ -1,0 +1,34 @@
+name: Update Codex Pet Index
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "codex/**"
+      - "scripts/update-codex-index.sh"
+      - "scripts/update-codex-index.ps1"
+      - ".github/workflows/update-codex-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Codex pet index
+        run: sh scripts/update-codex-index.sh
+      - name: Commit index changes
+        run: |
+          if git diff --quiet -- codex/pets.json; then
+            echo "codex/pets.json is up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add codex/pets.json
+          git commit -m "chore: update Codex pet index"
+          git push

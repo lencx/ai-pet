@@ -1,0 +1,10 @@
+{
+  "pets": [
+    {
+      "id": "kerno",
+      "displayName": "Kerno",
+      "description": "A tiny terminal-kernel sentinel for Noi architecture and runtime work.",
+      "path": "kerno"
+    }
+  ]
+}

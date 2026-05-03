@@ -1,12 +1,12 @@
 {
-  "name": "ai-pet",
+  "name": "pet",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "author": "lencx <lencx.me@gmail.com>",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && sh scripts/prepare-pages-assets.sh",
+    "build": "tsc -b && vite build && sh scripts/prepare-pages-assets.sh",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,6 +20,10 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "tailwindcss": "^4.2.4"
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3"
   }
 }

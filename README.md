@@ -7,15 +7,14 @@ This repository stores generated pet packages, not the generation workflow. Each
 ## Repository Layout
 
 ```text
-ai-pet/
+pet/
 └── codex/
     ├── pets.json
     ├── airi/
     │   ├── pet.json
     │   └── spritesheet.webp
     └── kerno/
-        ├── pet.json
-        └── spritesheet.webp
+    └── ...
 ```
 
 ## Codex Pets

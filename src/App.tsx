@@ -1,10 +1,11 @@
+import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { Switch } from "@base-ui/react/switch";
 import { Tabs } from "@base-ui/react/tabs";
 import { Toggle } from "@base-ui/react/toggle";
 import { Icon } from "@iconify/react";
 import { Moon, Sun } from "lucide-react";
-import { pets } from "./pets.js";
+import { pets, type Pet } from "./pets";
 
 const CELL_WIDTH = 192;
 const CELL_HEIGHT = 208;
@@ -13,7 +14,30 @@ const ATLAS_ROWS = 9;
 const SITE_BASE_URL = "https://lencx.me/pet";
 const LOGO_URL = `${import.meta.env.BASE_URL}logo.svg`;
 
-const states = [
+type Theme = "light" | "dark";
+
+type AnimationState = {
+  id: string;
+  label: string;
+  row: number;
+  durations: number[];
+};
+
+type SpriteFrameProps = {
+  pet: Pet;
+  state: AnimationState;
+  frame: number;
+  scale: number;
+  className?: string;
+};
+
+type InstallCard = {
+  title: string;
+  description: string;
+  command: string;
+};
+
+const states: AnimationState[] = [
   { id: "idle", label: "Idle", row: 0, durations: [280, 110, 110, 140, 140, 320] },
   {
     id: "running-right",
@@ -40,11 +64,11 @@ const states = [
   { id: "review", label: "Review", row: 8, durations: [150, 150, 150, 150, 150, 280] },
 ];
 
-function cx(...values) {
+function cx(...values: Array<string | false | null | undefined>) {
   return values.filter(Boolean).join(" ");
 }
 
-function checkerStyle(theme) {
+function checkerStyle(theme: Theme): CSSProperties {
   const color = theme === "dark" ? "rgba(255,255,255,0.055)" : "#ebe6df";
   return {
     backgroundImage: `
@@ -58,7 +82,7 @@ function checkerStyle(theme) {
   };
 }
 
-function SpriteFrame({ pet, state, frame, scale, className = "" }) {
+function SpriteFrame({ pet, state, frame, scale, className = "" }: SpriteFrameProps) {
   return (
     <div
       className={cx("shrink-0 bg-no-repeat [image-rendering:pixelated]", className)}
@@ -82,8 +106,8 @@ function App() {
   const [paused, setPaused] = useState(false);
   const [activeSection, setActiveSection] = useState("preview");
   const [copiedCommand, setCopiedCommand] = useState("");
-  const [theme, setTheme] = useState(() => {
-    const storedTheme = window.localStorage.getItem("ai-pet-theme");
+  const [theme, setTheme] = useState<Theme>(() => {
+    const storedTheme = window.localStorage.getItem("pet-theme");
     if (storedTheme === "light" || storedTheme === "dark") {
       return storedTheme;
     }
@@ -105,6 +129,12 @@ function App() {
   const listCommand = `curl -fsSL ${SITE_BASE_URL}/install.sh | sh -s -- --list`;
   const installAllCommand = `curl -fsSL ${SITE_BASE_URL}/install.sh | sh -s -- --all`;
   const windowsCommand = `irm ${SITE_BASE_URL}/install.ps1 | iex; CodexPet ${selectedPet?.id ?? "kerno"}`;
+  const installCards: InstallCard[] = [
+    { title: "macOS / Linux", description: `Install ${selectedPet?.displayName ?? "Codex pet"}`, command: installCommand },
+    { title: "Windows PowerShell", description: `Install ${selectedPet?.displayName ?? "Codex pet"}`, command: windowsCommand },
+    { title: "List Pets", description: "Show every pet in the generated index", command: listCommand },
+    { title: "All Pets", description: "Install every pet in the generated index", command: installAllCommand },
+  ];
 
   useEffect(() => {
     setFrame(0);
@@ -112,7 +142,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);
-    window.localStorage.setItem("ai-pet-theme", theme);
+    window.localStorage.setItem("pet-theme", theme);
   }, [isDark, theme]);
 
   useEffect(() => {
@@ -128,12 +158,12 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [frame, paused, selectedState, speed]);
 
-  function handleSectionChange(section) {
+  function handleSectionChange(section: string) {
     setActiveSection(section);
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  async function copyCommand(command) {
+  async function copyCommand(command: string) {
     await navigator.clipboard.writeText(command);
     setCopiedCommand(command);
     window.setTimeout(() => {
@@ -229,7 +259,7 @@ function App() {
                 "inline-flex min-h-[42px] w-[42px] items-center justify-center rounded-lg border p-2 text-[13px] font-extrabold transition sm:w-auto sm:px-3",
                 isDark ? "border-stone-100 bg-stone-100 text-stone-950 hover:bg-emerald-300" : "border-stone-950 bg-stone-950 text-white hover:bg-emerald-900",
               )}
-              href="https://github.com/lencx/ai-pet"
+              href="https://github.com/lencx/pet"
               rel="noreferrer"
               target="_blank"
             >
@@ -350,7 +380,7 @@ function App() {
                       "relative inline-flex h-[22px] w-[38px] shrink-0 items-center rounded-full border p-0.5 outline-none transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 data-[checked]:border-emerald-500 data-[checked]:bg-gradient-to-br data-[checked]:from-emerald-400 data-[checked]:to-emerald-700",
                       isDark ? "border-stone-500 bg-stone-700" : "border-stone-400 bg-stone-200",
                     )}
-                    onCheckedChange={setPaused}
+                    onCheckedChange={(checked) => setPaused(checked)}
                   >
                     <Switch.Thumb
                       className={cx(
@@ -424,12 +454,7 @@ function App() {
         </div>
 
         <div className="grid gap-[18px] lg:grid-cols-2">
-          {[
-            ["macOS / Linux", `Install ${selectedPet.displayName}`, installCommand],
-            ["Windows PowerShell", `Install ${selectedPet.displayName}`, windowsCommand],
-            ["List Pets", "Show every pet in the generated index", listCommand],
-            ["All Pets", "Install every pet in the generated index", installAllCommand],
-          ].map(([title, description, command]) => (
+          {installCards.map(({ title, description, command }) => (
             <article className={cx("grid gap-4 rounded-lg border p-[18px]", card)} key={title}>
               <div className="flex items-start justify-between gap-4">
                 <div>

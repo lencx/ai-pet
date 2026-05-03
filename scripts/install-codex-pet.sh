@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-BASE_URL="${AI_PET_BASE_URL:-https://raw.githubusercontent.com/lencx/ai-pet/main}"
+BASE_URL="${AI_PET_BASE_URL:-https://lencx.me/pet}"
 CODEX_HOME_DIR="${CODEX_HOME:-$HOME/.codex}"
 FORCE=0
 LIST=0
@@ -14,20 +14,20 @@ Install ready-made Codex pets.
 
 Usage:
   sh install-codex-pet.sh [pet-id ...] [options]
-  curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- [pet-id ...] [options]
+  curl -fsSL https://lencx.me/pet/install.sh | sh -s -- [pet-id ...] [options]
 
 Options:
   --all                 Install all pets from the generated remote index.
   --codex-home <path>   Override the Codex home directory. Defaults to CODEX_HOME or ~/.codex.
   --force               Replace an existing installed pet.
   --list                List pets from the generated remote index.
-  --base-url <url>      Override the remote raw base URL.
+  --base-url <url>      Override the remote base URL.
   -h, --help            Show this help.
 
 Examples:
-  curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- kerno
-  curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- --list
-  curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- kerno --force
+  curl -fsSL https://lencx.me/pet/install.sh | sh -s -- kerno
+  curl -fsSL https://lencx.me/pet/install.sh | sh -s -- --list
+  curl -fsSL https://lencx.me/pet/install.sh | sh -s -- kerno --force
 EOF
 }
 

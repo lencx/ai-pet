@@ -1,0 +1,25 @@
+{
+  "name": "ai-pet",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "author": "lencx <lencx.me@gmail.com>",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && sh scripts/prepare-pages-assets.sh",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.4.1",
+    "@iconify/react": "^6.0.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "lucide-react": "^1.14.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "vite": "^8.0.10"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.4",
+    "tailwindcss": "^4.2.4"
+  }
+}

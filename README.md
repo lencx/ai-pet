@@ -10,6 +10,9 @@ This repository stores generated pet packages, not the generation workflow. Each
 ai-pet/
 └── codex/
     ├── pets.json
+    ├── airi/
+    │   ├── pet.json
+    │   └── spritesheet.webp
     └── kerno/
         ├── pet.json
         └── spritesheet.webp
@@ -18,6 +21,11 @@ ai-pet/
 ## Codex Pets
 
 Codex custom pets are stored under `codex/<pet-id>/`.
+
+Available pets:
+
+- `airi` - A cute refined anime coding companion who keeps the workspace calm.
+- `kerno` - A tiny terminal-kernel sentinel for Noi architecture and runtime work.
 
 Each pet package should contain:
 
@@ -34,38 +42,38 @@ codex/kerno/
 
 ## Install a Codex Pet
 
-You do not need to clone this repository or install Node.js. Install a specific Codex pet directly from GitHub:
+You do not need to clone this repository or install Node.js. Install a specific Codex pet directly from `lencx.me`:
 
 macOS / Linux:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- kerno
+curl -fsSL https://lencx.me/pet/install.sh | sh -s -- kerno
 ```
 
 Windows PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet kerno
+irm https://lencx.me/pet/install.ps1 | iex; CodexPet kerno
 ```
 
 Install all available Codex pets:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- --all
+curl -fsSL https://lencx.me/pet/install.sh | sh -s -- --all
 ```
 
 ```powershell
-irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet --all
+irm https://lencx.me/pet/install.ps1 | iex; CodexPet --all
 ```
 
 List available pets:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- --list
+curl -fsSL https://lencx.me/pet/install.sh | sh -s -- --list
 ```
 
 ```powershell
-irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet --list
+irm https://lencx.me/pet/install.ps1 | iex; CodexPet --list
 ```
 
 The remote list is read from the generated `codex/pets.json` index. The install script does not use the GitHub API.
@@ -73,13 +81,13 @@ The remote list is read from the generated `codex/pets.json` index. The install 
 Replace an existing installed pet:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- kerno --force
+curl -fsSL https://lencx.me/pet/install.sh | sh -s -- kerno --force
 ```
 
 Use a custom Codex home:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.sh | sh -s -- kerno --codex-home "/path/to/.codex"
+curl -fsSL https://lencx.me/pet/install.sh | sh -s -- kerno --codex-home "/path/to/.codex"
 ```
 
 If you already cloned the repository, you can run the local shell script:

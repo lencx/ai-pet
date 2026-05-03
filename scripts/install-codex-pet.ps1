@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$BaseUrl = if ($env:AI_PET_BASE_URL) { $env:AI_PET_BASE_URL.TrimEnd("/") } else { "https://raw.githubusercontent.com/lencx/ai-pet/main" }
+$BaseUrl = if ($env:AI_PET_BASE_URL) { $env:AI_PET_BASE_URL.TrimEnd("/") } else { "https://lencx.me/pet" }
 $CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME ".codex" }
 $Force = $false
 $List = $false
@@ -18,20 +18,20 @@ Install ready-made Codex pets.
 
 Usage:
   powershell -ExecutionPolicy Bypass -File install-codex-pet.ps1 [pet-id ...] [options]
-  irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet kerno
+  irm https://lencx.me/pet/install.ps1 | iex; CodexPet kerno
 
 Options:
   --all                 Install all pets from the generated remote index.
   --codex-home <path>   Override the Codex home directory. Defaults to CODEX_HOME or ~/.codex.
   --force               Replace an existing installed pet.
   --list                List pets from the generated remote index.
-  --base-url <url>      Override the remote raw base URL.
+  --base-url <url>      Override the remote base URL.
   -h, --help            Show this help.
 
 Examples:
-  irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet kerno
-  irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet --list
-  irm https://raw.githubusercontent.com/lencx/ai-pet/main/scripts/install-codex-pet.ps1 | iex; Install-CodexPet kerno --force
+  irm https://lencx.me/pet/install.ps1 | iex; CodexPet kerno
+  irm https://lencx.me/pet/install.ps1 | iex; CodexPet --list
+  irm https://lencx.me/pet/install.ps1 | iex; CodexPet kerno --force
 "@
 }
 
@@ -49,7 +49,7 @@ function Get-AvailablePets($LocalBaseUrl) {
   return $index.pets | ForEach-Object { $_.id } | Where-Object { $_ } | Sort-Object
 }
 
-function Install-CodexPet {
+function CodexPet {
   param(
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$InstallArgs
@@ -139,6 +139,8 @@ function Install-CodexPet {
   Write-Output "Done. Restart Codex or refresh the pet list if needed."
 }
 
+Set-Alias -Name Install-CodexPet -Value CodexPet
+
 if ($ArgsList.Count -gt 0) {
-  Install-CodexPet @ArgsList
+  CodexPet @ArgsList
 }

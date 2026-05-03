@@ -1,6 +1,12 @@
 {
   "pets": [
     {
+      "id": "airi",
+      "displayName": "Airi",
+      "description": "A cute refined anime coding companion who keeps the workspace calm.",
+      "path": "airi"
+    },
+    {
       "id": "kerno",
       "displayName": "Kerno",
       "description": "A tiny terminal-kernel sentinel for Noi architecture and runtime work.",
